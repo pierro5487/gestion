@@ -1,4 +1,10 @@
 <?php
+
+/*------------inclusion-------------*/
+require_once('connect.php');
+require_once('functions.php');
+
+
 /*------title de la page------*/
 $title='Ajouter un client';
 
@@ -57,6 +63,20 @@ if(isset($_POST['Send'])) {
 	}else if(strlen($_POST['city'])<2) {
 		$errors['city']='Veuillez entrer une ville de plus de 2 lettres';
 	}
+	/*--------------traitement donnees-------------*/
+
+	$lastname=trim(ucfirst(strtolower($_POST['lastname'])));
+	$firstname=trim(ucfirst(strtolower($_POST['firstname'])));
+	$mail=trim($_POST['mail']);
+	$phone=trim($_POST['phone']);
+	$adress=trim($_POST['adress']);
+	$zipCode=trim($_POST['zipCode']);
+	$city=trim(ucfirst(strtolower($_POST['city'])));
+	/*------ajout client dans bdd-----*/
+
+	if(!isset($errors)) {
+		addUser($pdo,$lastname,$firstname,$mail,$phone,$adress,$zipCode,$city);
+	}
 }
 /*------la page--------*/
 include('header.php');
@@ -84,16 +104,20 @@ include('header.php');
 			<label for="city">Ville:</label><input type="text" name="city" id="city" value="<?php if(isset($errors)){echo $_POST['city'];} ?>"/><br>
 		</fieldset>
 		<input type="submit" name="Send" value="Enregistrer">
-		<?php
-		if(isset($errors)) {
+	</form>
+	<?php
+		if(isset($_POST['Send'])){
+			if(isset($errors)) {
 			echo '<ul>';
 			foreach ($errors as $key => $value) {
 				echo '<li>'.$value.'</li>';
 			}
 			echo '</ul>';
+			}else{
+				echo '<p style="color:green">Nouveau client ajouté</p>';
+			}
 		}
-		?>
-	</form>
+	?>
 </main>
 <?php
 include('footer.php');

@@ -9,4 +9,10 @@
 <body>
 	<!-- /header -->
 	<header id="header">
+		<nav>
+			<ul>
+				<li><a href="addClients.php">Ajouter un client</a></li>
+				<li><a href="addAuto.php">Ajouter une auto</a></li>
+			</ul>
+		</nav>
 	</header>
